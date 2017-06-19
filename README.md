@@ -11,10 +11,10 @@
   * write a question and observation on canvas
 
 # Include
-* gitignore
-* eslint
-* package.json
-* include any npm scripts for starting server, linting, testing, etc
+* gitignore-done
+* eslint-done
+* package.json-done
+* include any npm scripts for starting server, linting, testing, etc -done
 * readme
  * Write a paragraph about your project
  * Write docs on how to get the project running
