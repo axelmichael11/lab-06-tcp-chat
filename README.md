@@ -30,17 +30,17 @@
 * Clients should have a unique 'nickname'
  * **e.g.** `guest-43`
 * When sockets are connected with the ClientPool they should be given event listeners for `data`, `error`, and `close` events
- * When a socket emits the `close` event the socket should be removed from the client pool!
- * When a socket emits the `error` event the error should be logged on the server
+ * When a socket emits the `close` event the socket should be removed from the client pool! -done
+ * When a socket emits the `error` event the error should be logged on the server :DONE
  * When a socket emits the `data` event the data should be logged on the server and the `\wack` commands below should be implemented
 
 # Wack commands `'/'`
 * `/nick` should allow a user change their nickname
-* `/dm` should allow a user to send a message directly to another user by nick name
+* `/dm` should allow a user to send a message directly to another user by nick name-DONE
 * when a user speaks their nickname should be printed
- * **i.e.** `teapot: Sup Hacker?`
-* `/troll` should take in a number and a message and send the message to everyone that number of times
-* `/quit` should close the connection with the user
+ * **i.e.** `teapot: Sup Hacker?` -done
+* `/troll` should take in a number and a message and send the message to everyone that number of times -done
+* `/quit` should close the connection with the user -done.
 
 ## Bonus
 * 2pts Write a test that tests `\nick` actually changes a clients nickname

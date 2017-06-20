@@ -1,42 +1,85 @@
 'use strict';
 
 const net = require('net');
-const server = net.createServer();
+const User = require('./client.js');
 
+const server = net.createServer();
 let clientPool = [];
 
 server.on('connection', (socket) => {
-  socket.write('hello socket, welcome to slugchat!\n');
-  socket.nickname = `user_${Math.random()}`;
-  console.log(`${socket.nickname} connected!`);
+  const user = new User(socket);
+  socket.write('hello user, welcome to Michaels chat!\n');
+  socket.write(`${user.nickname} connected!\n`);
 
-  clientPool = [...clientPool, socket];
-
+  clientPool = [...clientPool, user];
+  console.log(clientPool);
   let handleDisconnect = () => {
-    console.log(`${socket.nickname} left the chat`);
+    console.log(`${user.nickname} left the chat`);
     clientPool = clientPool.filter(item => item !== socket);
   };
 
   socket.on('error', handleDisconnect);
-  socket.on('close', handleDisconnect);
+  // socket.on('close', handleDisconnect);
 
   socket.on('data', (buffer) => {
     let data = buffer.toString();
     if(data.startsWith('/nickname')){
-      socket.nickname = data.split('/nickname ')[1] || socket.nickname;
-      socket.nickname = socket.nickname.trim();
-      socket.write(`you are now know as ${socket.nickname}`);
+      user.nickname = data.split('/nickname ')[1] || user.nickname;
+      user.nickname = user.nickname.trim();
+      user.socket.write(`you are now know as ${user.nickname}\n`);
+      user;
       return;
     }
+    // "/troll 3 how are you"
+    if(data.startsWith('/troll')){
+      let content = data.split('/troll')[1] || '';
+      let split = content.split(' ');
+      let words = split.slice(1);
+      let trollNumber = parseInt(words[0]);
+      let message = split.slice(2).join(' ');
+      for (var i = 0; i< trollNumber; i++){
+        clientPool.forEach((user) => {
+          user.socket.write(`${user.nickname}: ${message}`);
+        });
+      }
+    }
+    if(data.startsWith('/quit')){
+      // let content = data.split('/troll')[1] || '';
+      // let split = content.split(' ');
+      // let words = split.slice(1);
+      // let handleDisconnect = () => {
+      //   console.log(`${user.nickname} left the chat`);
+      //   clientPool = clientPool.filter(item => item !== socket);
+      // };
+      // clientPool.forEach((user) => {
+      //   user.socket.write(`${user.nickname} left the chat`);
+      console.log('end user\n');
+      socket.end();
+    }
+
+
 
     // "/dm slugbyte how are you"
     if(data.startsWith('/dm')){
       let content = data.split('/dm')[1] || '';
-      //'slugbyte how are you'
+
+      let split = content.split(' ');
+      let words = split.slice(1);
+      let userName = words[0];
+      let message = split.slice(2, split.length).join(' ');
+      let dmClients = clientPool.filter(user => user.nickname ==userName);
+      console.log('clients....'+dmClients);
+      for (let i= 0; i <dmClients.length; i++){
+        dmClients[i].socket.write(`${user.nickname}:${message}`);
+      }
+      return;
     }
 
-    clientPool.forEach((item) => {
-      item.write(`${socket.nickname}: ${data}`);
+    if(data.startsWith('/quit')){
+
+
+    clientPool.forEach((user) => {
+      user.socket.write(`${user.nickname}: ${data}`);
     });
   });
 });
