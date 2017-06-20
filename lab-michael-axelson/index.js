@@ -19,7 +19,7 @@ server.on('connection', (socket) => {
   };
 
   socket.on('error', handleDisconnect);
-  // socket.on('close', handleDisconnect);
+  socket.on('close', handleDisconnect);
 
   socket.on('data', (buffer) => {
     let data = buffer.toString();
@@ -44,25 +44,14 @@ server.on('connection', (socket) => {
       }
     }
     if(data.startsWith('/quit')){
-      // let content = data.split('/troll')[1] || '';
-      // let split = content.split(' ');
-      // let words = split.slice(1);
-      // let handleDisconnect = () => {
-      //   console.log(`${user.nickname} left the chat`);
-      //   clientPool = clientPool.filter(item => item !== socket);
-      // };
-      // clientPool.forEach((user) => {
-      //   user.socket.write(`${user.nickname} left the chat`);
       console.log('end user\n');
       socket.end();
     }
 
 
 
-    // "/dm slugbyte how are you"
     if(data.startsWith('/dm')){
       let content = data.split('/dm')[1] || '';
-
       let split = content.split(' ');
       let words = split.slice(1);
       let userName = words[0];
@@ -74,8 +63,6 @@ server.on('connection', (socket) => {
       }
       return;
     }
-
-    if(data.startsWith('/quit')){
 
 
     clientPool.forEach((user) => {

@@ -32,7 +32,7 @@
 * When sockets are connected with the ClientPool they should be given event listeners for `data`, `error`, and `close` events
  * When a socket emits the `close` event the socket should be removed from the client pool! -done
  * When a socket emits the `error` event the error should be logged on the server :DONE
- * When a socket emits the `data` event the data should be logged on the server and the `\wack` commands below should be implemented
+ * When a socket emits the `data` event the data should be logged on the server and the `\wack` commands below should be implemented -done
 
 # Wack commands `'/'`
 * `/nick` should allow a user change their nickname
